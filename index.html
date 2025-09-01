@@ -1,6 +1,4 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
+<html lang="zh-CN"><head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application release -- zcygod</title>
@@ -570,7 +568,7 @@
     <section id="software" class="section">
         <div class="container">
             <h2 class="section-title">软件列表</h2>
-            <p class="section-subtitle">点击下方软件卡片查看详细信息和下载选项</p>
+            <p class="section-subtitle"></p>
             
             <div class="software-grid">
                 <!-- 软件卡片 1 -->
@@ -594,15 +592,7 @@
                         <button class="btn btn-primary">查看详情</button>
                     </div>
                 </div>
-                
-                <!-- 软件卡片 2 -->
-               
-                
-                <!-- 软件卡片 3 -->
-                
-                
-              
-        
+            </div>
         </div>
     </section>
     
@@ -658,7 +648,7 @@
                     <a href="">加入团队</a>
                 </div>
                 <div class="copyright">
-                    &copy; 2025 软件发布中心. 保留所有权利。
+                    © 2025 软件发布中心. 保留所有权利。
                 </div>
             </div>
         </div>
@@ -670,7 +660,7 @@
             <div class="modal-header" id="modalHeader">
                 <div class="card-logo" id="modalLogo">Z</div>
                 <h2 id="modalTitle">test</h2>
-                <button class="modal-close" id="modalClose">&times;</button>
+                <button class="modal-close" id="modalClose">×</button>
             </div>
             <div class="modal-body" id="modalBody">
                 <!-- 模态框内容将通过JS动态填充 -->
@@ -679,7 +669,7 @@
     </div>
     
     <script>
-        // 软件数据
+        // 软件数据 - 修复了downloads数组的语法错误
         const softwareData = [
             {
                 id: 1,
@@ -693,18 +683,20 @@
                 features: [
                     "不需要下载一堆东西",
                     "cpp写的很好玩"
-                
                 ],
                 changelog: [
                     "我不知道",
                     "就一个版本"
                 ],
-                { 
-                os: "Windows", 
-                version: "支持 Windows 10/11", 
-                icon: "🖥️",
-                url: "https://github.com/zcygod1337/CppMinecraftLauncher/releases/download/McLauncher/MClauncher.exe" // 添加实际下载链接
-              }
+                // 修复了下载选项的结构，将其正确放入downloads数组中
+                downloads: [
+                    { 
+                        os: "Windows", 
+                        version: "支持 Windows 10/11", 
+                        icon: "🖥️",
+                        url: "https://github.com/zcygod1337/CppMinecraftLauncher/releases/download/McLauncher/MClauncher.exe"
+                    }
+                ]
             }
         ];
         
@@ -745,7 +737,7 @@
                   <div>
                     <div style="margin-bottom: 8px; font-weight: 500;">${download.icon} ${download.os}</div>
                     <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px;">${download.version}</div>
-                    <a href="${download.url}" class="btn btn-primary">下载</a>  <!-- 使用新增的url字段 -->
+                    <a href="${download.url}" class="btn btn-primary" target="_blank">下载</a>
                   </div>
                 `;
             });
@@ -840,8 +832,6 @@
             });
         });
     </script>
-</body>
-</html>
-    
 
 
+</body></html>
