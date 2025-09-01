@@ -1,0 +1,1031 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application release -- zcygod</title>
+    <style>
+        /* 基础样式 */
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #10b981;
+            --secondary-dark: #059669;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --light-gray: #e2e8f0;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.3s ease;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: 600;
+            text-align: center;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(59, 130, 246, 0.3);
+        }
+        
+        .btn-secondary {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background-color: var(--secondary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        /* 通用组件 */
+        .section {
+            padding: 60px 0;
+        }
+        
+        .section-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            color: var(--dark);
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 40px;
+            max-width: 700px;
+        }
+        
+        .text-center {
+            text-align: center;
+        }
+        
+        /* 导航栏 */
+        header {
+            background-color: white;
+            box-shadow: var(--shadow);
+            padding: 16px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-icon {
+            font-size: 1.8rem;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        .nav-links a {
+            font-weight: 500;
+            color: var(--dark);
+            transition: var(--transition);
+        }
+        
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+        
+        /* 英雄区域 */
+        .hero {
+            padding: 80px 0;
+            background-color: white;
+        }
+        
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: var(--gray);
+            margin-bottom: 0;
+        }
+        
+        /* 软件卡片区域 */
+        .software-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 20px;
+        }
+        
+        .software-card {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        
+        .software-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card-header {
+            padding: 20px;
+            background-color: var(--primary);
+            color: white;
+            position: relative;
+        }
+        
+        .card-release-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(255, 255, 255, 0.2);
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        
+        .card-logo {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .card-body {
+            padding: 20px;
+        }
+        
+        .card-body p {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 15px;
+        }
+        
+        .card-features {
+            margin-bottom: 20px;
+        }
+        
+        .card-feature {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        
+        .card-feature-icon {
+            color: var(--secondary);
+            font-size: 1rem;
+        }
+        
+        .card-footer {
+            padding: 0 20px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .card-version {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: var(--transition);
+        }
+        
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            background-color: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+        
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+        
+        .modal-header {
+            padding: 30px;
+            background-color: var(--primary);
+            color: white;
+            position: relative;
+        }
+        
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .modal-body {
+            padding: 30px;
+        }
+        
+        .modal-description {
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            line-height: 1.8;
+        }
+        
+        .modal-features-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .modal-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .modal-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+        
+        .modal-feature-icon {
+            color: var(--secondary);
+            margin-top: 3px;
+        }
+        
+        .modal-download {
+            background-color: var(--light);
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .modal-download-title {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+        
+        .download-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .modal-changelog {
+            margin-bottom: 30px;
+        }
+        
+        .changelog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        
+        .changelog-version {
+            font-weight: 700;
+        }
+        
+        .changelog-date {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+        
+        .changelog-list {
+            padding-left: 20px;
+        }
+        
+        .changelog-list li {
+            margin-bottom: 8px;
+        }
+        
+        /* 友情链接 */
+        .links {
+            background-color: white;
+        }
+        
+        .links-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .links-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+        }
+        
+        .link-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: var(--transition);
+            opacity: 0.8;
+        }
+        
+        .link-item:hover {
+            opacity: 1;
+            transform: translateY(-3px);
+        }
+        
+        .link-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 12px;
+            font-size: 1.5rem;
+            color: var(--primary);
+        }
+        
+        .link-name {
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+        
+        /* 页脚 */
+        footer {
+            background-color: var(--dark);
+            color: var(--light-gray);
+            padding: 60px 0 30px;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+        
+        .footer-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-description {
+            max-width: 500px;
+            margin-bottom: 30px;
+            font-size: 0.95rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .footer-links a {
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+        
+        .footer-links a:hover {
+            color: white;
+        }
+        
+        .copyright {
+            font-size: 0.85rem;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .modal-features {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-options {
+                flex-direction: column;
+            }
+            
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <header>
+        <div class="container">
+            <nav>
+                <a href="#" class="logo">
+                    <span class="logo-icon">⚙️</span>
+                    软件发布中心
+                </a>
+                <ul class="nav-links">
+                    <li><a href="#software">软件列表</a></li>
+                    <li><a href="#links">友情链接</a></li>
+                    <li><a href="#">关于我们</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h1>zcygod's application release</h1>
+                <p>Hello World!</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 软件卡片区域 -->
+    <section id="software" class="section">
+        <div class="container">
+            <h2 class="section-title">软件列表</h2>
+            <p class="section-subtitle">点击下方软件卡片查看详细信息和下载选项</p>
+            
+            <div class="software-grid">
+                <!-- 软件卡片 1 -->
+                <div class="software-card" data-id="1">
+                    <div class="card-header" style="background-color: #3b82f6;">
+                        <div class="card-logo">M</div>
+                        <h3>Minecraft CppLauncher 1.0</h3>
+                        <span class="card-release-badge">新发布</span>
+                    </div>
+                    <div class="card-body">
+                        <p>c++的mc启动工具（点击即玩，无需下载任何依赖）</p>
+                        <div class="card-features">
+                            <div class="card-feature">
+                                <span class="card-feature-icon">✓</span>
+                                <span>我不知道反正能玩，好玩</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer">
+                        <span class="card-version">版本 1.0.0</span>
+                        <button class="btn btn-primary">查看详情</button>
+                    </div>
+                </div>
+                
+                <!-- 软件卡片 2 -->
+               
+                
+                <!-- 软件卡片 3 -->
+                
+                
+              
+            
+                
+                        <!-- 软件卡片 6 -->
+                        <div class="software-card" data-id="6">
+                            <div class="card-header" style="background-color: #06b6d4;">
+                                <div class="card-logo">🔍</div>
+                                <h3>SearchPro 3.1</h3>
+                                <span class="card-release-badge">更新</span>
+                            </div>
+                            <div class="card-body">
+                                <p>高级搜索工具，快速查找和整理您的本地与云端文件。</p>
+                                <div class="card-features">
+                                    <div class="card-feature">
+                                        <span class="card-feature-icon">✓</span>
+                                        <span>深度学习搜索算法</span>
+                                    </div>
+                                    <div class="card-feature">
+                                        <span class="card-feature-icon">✓</span>
+                                        <span>搜索过滤增强</span>
+                                    </div>
+                                    <div class="card-feature">
+                                        <span class="card-feature-icon">✓</span>
+                                        <span>批量操作功能</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <span class="card-version">版本 3.1.2</span>
+                                <button class="btn btn-primary">查看详情</button>
+                            </div>
+                        </div>
+                    </div>
+        </div>
+    </section>
+    
+    <!-- 友情链接 -->
+    <section id="links" class="section links">
+        <div class="container text-center">
+            <h2 class="section-title">友情链接</h2>
+            <p class="section-subtitle">我们的合作伙伴与推荐资源</p>
+            
+            <div class="links-container">
+                <div class="links-grid">
+                    <a href="#" class="link-item">
+                        <div class="link-icon">💻</div>
+                        <div class="link-name">开发者社区</div>
+                    </a>
+                    <a href="#" class="link-item">
+                        <div class="link-icon">📚</div>
+                        <div class="link-name">软件教程</div>
+                    </a>
+                    <a href="#" class="link-item">
+                        <div class="link-icon">🛠️</div>
+                        <div class="link-name">工具集</div>
+                    </a>
+                    <a href="#" class="link-item">
+                        <div class="link-icon">☁️</div>
+                        <div class="link-name">云服务</div>
+                    </a>
+                    <a href="#" class="link-item">
+                        <div class="link-icon">👥</div>
+                        <div class="link-name">用户论坛</div>
+                    </a>
+                    <a href="#" class="link-item">
+                        <div class="link-icon">🎓</div>
+                        <div class="link-name">学习资源</div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 页脚 -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <span class="logo-icon">⚙️</span>
+                    application release
+                </div>
+                <p class="footer-description">
+                    快加入zcygod的小窝！！！！
+                </p>
+                <div class="footer-links">
+                    <a href="">加入团队</a>
+                </div>
+                <div class="copyright">
+                    &copy; 2025 软件发布中心. 保留所有权利。
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- 模态框 -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modal">
+            <div class="modal-header" id="modalHeader">
+                <div class="card-logo" id="modalLogo">Z</div>
+                <h2 id="modalTitle">test</h2>
+                <button class="modal-close" id="modalClose">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- 模态框内容将通过JS动态填充 -->
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 软件数据
+        const softwareData = [
+            {
+                id: 1,
+                name: "Minecraft Launcher",
+                logo: "M",
+                color: "#3b82f6",
+                badge: "新发布",
+                version: "1.0.0",
+                releaseDate: "忘了。",
+                description: "用c++写的超级mc启动器",
+                features: [
+                    "不需要下载一堆东西",
+                    "cpp写的很好玩"
+                
+                ],
+                changelog: [
+                    "我不知道",
+                    "就一个版本"
+                ],
+                downloads: [
+                    { os: "Windows", version: "支持 Windows 7/10/11", icon: "W" }
+                ]
+            },
+            {
+                id: 2,
+                name: "DataViz Pro 2.5",
+                logo: "📊",
+                color: "#10b981",
+                badge: "更新",
+                version: "2.5.0",
+                releaseDate: "2023年10月10日",
+                description: "DataViz Pro 2.5 是一款强大的数据可视化工具，让数据分析变得简单直观。本次更新新增了10种图表类型，优化了数据导入速度，并增加了自定义主题功能，满足不同场景下的数据展示需求。",
+                features: [
+                    "新增10种图表类型，包括桑基图和旭日图",
+                    "数据导入速度提升40%，支持更大数据集",
+                    "自定义主题功能，可保存企业风格设置",
+                    "增强的数据筛选和转换工具",
+                    "导出功能优化，支持更多格式和分辨率",
+                    "提升与主流数据来源的集成能力"
+                ],
+                changelog: [
+                    "新增10种高级图表类型",
+                    "优化数据处理引擎，提升大数据集处理能力",
+                    "添加自定义主题和样式保存功能",
+                    "改进用户界面，提升操作效率",
+                    "修复数据导入时的格式兼容性问题",
+                    "增强与Excel、Google Sheets的集成"
+                ],
+                downloads: [
+                    { os: "Windows", version: "支持 Windows 10/11", icon: "🖥️" },
+                    { os: "macOS", version: "支持 macOS 11+", icon: "🍎" },
+                    { os: "Web版", version: "浏览器直接访问", icon: "🌐" }
+                ]
+            },
+            {
+                id: 3,
+                name: "SecureVault 4.2",
+                logo: "🔒",
+                color: "#f97316",
+                badge: "更新",
+                version: "4.2.1",
+                releaseDate: "2023年10月5日",
+                description: "SecureVault 4.2 是专业的密码管理与数据加密工具，保护您的数字资产安全。本次更新采用了更强大的加密算法，优化了双因素认证流程，并新增了安全分享功能，让您可以安全地与他人共享特定数据。",
+                features: [
+                    "采用AES-256和RSA混合加密算法",
+                    "优化双因素认证流程，提升安全性",
+                    "新增安全分享功能，可设置访问权限和有效期",
+                    "自动密码生成器，支持自定义规则",
+                    "离线模式支持，确保无网络时也能访问数据",
+                    "安全审计功能，检测弱密码和重复使用的密码"
+                ],
+                changelog: [
+                    "升级加密引擎，采用更安全的混合加密算法",
+                    "优化双因素认证用户体验",
+                    "添加数据安全分享功能",
+                    "改进密码强度检测算法",
+                    "修复移动端同步偶发失败的问题",
+                    "增强浏览器扩展兼容性"
+                ],
+                downloads: [
+                    { os: "Windows", version: "支持 Windows 10/11", icon: "🖥️" },
+                    { os: "macOS", version: "支持 macOS 11+", icon: "🍎" },
+                    { os: "iOS", version: "支持 iOS 14+", icon: "📱" },
+                    { os: "Android", version: "支持 Android 8.0+", icon: "🤖" }
+                ]
+            },
+            {
+                id: 4,
+                name: "NoteMaster 5.0",
+                logo: "✍️",
+                color: "#8b5cf6",
+                badge: "新发布",
+                version: "5.0.0",
+                releaseDate: "2023年9月30日",
+                description: "NoteMaster 5.0 是一款智能笔记应用，支持多设备同步和丰富的编辑功能。全新版本引入了AI辅助写作功能，帮助您更高效地创作内容。新增思维导图模式，让您可以用视觉化方式组织思路。",
+                features: [
+                    "AI辅助写作，提供内容建议和语法检查",
+                    "思维导图模式，支持自由组织和连接想法",
+                    "离线工作模式，确保随时随地记录",
+                    "强大的标签和搜索系统，快速找到所需内容",
+                    "支持多种媒体格式插入，丰富笔记内容",
+                    "自定义模板，满足不同场景的笔记需求"
+                ],
+                changelog: [
+                    "全新设计的用户界面，提升使用体验",
+                    "引入AI辅助写作功能",
+                    "添加思维导图模式",
+                    "增强离线工作能力",
+                    "优化同步算法，减少数据传输量",
+                    "扩展模板库，新增20+专业模板"
+                ],
+                downloads: [
+                    { os: "Windows", version: "支持 Windows 10/11", icon: "🖥️" },
+                    { os: "macOS", version: "支持 macOS 11+", icon: "🍎" },
+                    { os: "iOS", version: "支持 iOS 14+", icon: "📱" },
+                    { os: "Android", version: "支持 Android 8.0+", icon: "🤖" },
+                    { os: "Web版", version: "浏览器直接访问", icon: "🌐" }
+                ]
+            },
+            {
+                id: 5,
+                name: "MobileSync 2.3",
+                logo: "📱",
+                color: "#ec4899",
+                badge: "更新",
+                version: "2.3.0",
+                releaseDate: "2023年9月25日",
+                description: "MobileSync 2.3 是一款设备同步工具，帮助您轻松管理和同步多设备数据。本次更新优化了增量同步算法，大大减少了数据传输量和同步时间。新增的设备管理面板让您可以更直观地管理所有连接的设备。",
+                features: [
+                    "增量同步优化，减少90%的数据传输量",
+                    "全新设备管理面板，直观查看所有设备状态",
+                    "同步速度提升60%，节省等待时间",
+                    "智能冲突解决，自动处理数据不一致问题",
+                    "选择性同步，可指定需要同步的内容类型",
+                    "同步历史记录，可查看和恢复之前的版本"
+                ],
+                changelog: [
+                    "优化增量同步算法，提升同步效率",
+                    "添加全新设备管理面板",
+                    "改进同步引擎，提升速度和稳定性",
+                    "增强与最新操作系统的兼容性",
+                    "修复大文件同步失败的问题",
+                    "添加同步计划任务功能"
+                ],
+                downloads: [
+                    { os: "Windows", version: "支持 Windows 10/11", icon: "🖥️" },
+                    { os: "macOS", version: "支持 macOS 11+", icon: "🍎" },
+                    { os: "iOS", version: "支持 iOS 13+", icon: "📱" },
+                    { os: "Android", version: "支持 Android 7.0+", icon: "🤖" }
+                ]
+            },
+            {
+                id: 6,
+                name: "SearchPro 3.1",
+                logo: "🔍",
+                color: "#06b6d4",
+                badge: "更新",
+                version: "3.1.2",
+                releaseDate: "2023年9月20日",
+                description: "SearchPro 3.1 是一款高级搜索工具，帮助您快速查找和整理本地与云端文件。本次更新采用了深度学习搜索算法，大幅提升了搜索准确性和相关性排序。新增的批量操作功能让您可以一次性处理多个搜索结果。",
+                features: [
+                    "深度学习搜索算法，理解上下文和语义",
+                    "增强搜索过滤选项，精确筛选结果",
+                    "批量操作功能，支持同时处理多个文件",
+                    "搜索结果可视化，直观展示文件关系",
+                    "支持云端文件搜索，包括主流云存储服务",
+                    "自定义搜索快捷键，提升操作效率"
+                ],
+                changelog: [
+                    "升级至深度学习搜索算法",
+                    "增加高级过滤选项和保存搜索条件功能",
+                    "添加批量操作工具",
+                    "优化搜索结果排序算法",
+                    "修复特定文件类型索引失败的问题",
+                    "提升大硬盘扫描速度"
+                ],
+                downloads: [
+                    { os: "Windows", version: "支持 Windows 10/11", icon: "🖥️" },
+                    { os: "macOS", version: "支持 macOS 11+", icon: "🍎" }
+                ]
+            }
+        ];
+        
+        // 获取DOM元素
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modal = document.getElementById('modal');
+        const modalHeader = document.getElementById('modalHeader');
+        const modalLogo = document.getElementById('modalLogo');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalBody = document.getElementById('modalBody');
+        const modalClose = document.getElementById('modalClose');
+        const softwareCards = document.querySelectorAll('.software-card');
+        
+        // 打开模态框
+        function openModal(softwareId) {
+            const software = softwareData.find(item => item.id === softwareId);
+            if (!software) return;
+            
+            // 设置模态框头部
+            modalHeader.style.backgroundColor = software.color;
+            modalLogo.textContent = software.logo;
+            modalTitle.textContent = software.name;
+            
+            // 构建模态框内容
+            let featuresHtml = '';
+            software.features.forEach(feature => {
+                featuresHtml += `
+                    <div class="modal-feature">
+                        <span class="modal-feature-icon">✓</span>
+                        <span>${feature}</span>
+                    </div>
+                `;
+            });
+            
+            let downloadsHtml = '';
+            software.downloads.forEach(download => {
+                downloadsHtml += `
+                    <div>
+                        <div style="margin-bottom: 8px; font-weight: 500;">${download.icon} ${download.os}</div>
+                        <div style="font-size: 0.9rem; color: var(--gray); margin-bottom: 10px;">${download.version}</div>
+                        <a href="#" class="btn btn-primary">下载</a>
+                    </div>
+                `;
+            });
+            
+            let changelogHtml = '';
+            software.changelog.forEach(item => {
+                changelogHtml += `<li>${item}</li>`;
+            });
+            
+            // 设置模态框内容
+            modalBody.innerHTML = `
+                <p class="modal-description">${software.description}</p>
+                
+                <h3 class="modal-features-title">主要特性</h3>
+                <div class="modal-features">
+                    ${featuresHtml}
+                </div>
+                
+                <div class="modal-download">
+                    <h3 class="modal-download-title">下载选项</h3>
+                    <div class="download-options">
+                        ${downloadsHtml}
+                    </div>
+                </div>
+                
+                <div class="modal-changelog">
+                    <div class="changelog-header">
+                        <div class="changelog-version">版本 ${software.version}</div>
+                        <div class="changelog-date">发布于 ${software.releaseDate}</div>
+                    </div>
+                    <ul class="changelog-list">
+                        ${changelogHtml}
+                    </ul>
+                </div>
+                
+                <div style="text-align: center;">
+                    <a href="#" class="btn btn-secondary">访问官方网站</a>
+                </div>
+            `;
+            
+            // 显示模态框
+            modalOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; // 防止背景滚动
+        }
+        
+        // 关闭模态框
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+            document.body.style.overflow = ''; // 恢复背景滚动
+        }
+        
+        // 为卡片添加点击事件
+        softwareCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const softwareId = parseInt(card.getAttribute('data-id'));
+                openModal(softwareId);
+            });
+        });
+        
+        // 关闭按钮事件
+        modalClose.addEventListener('click', closeModal);
+        
+        // 点击模态框外部关闭
+        modalOverlay.addEventListener('click', (e) => {
+            if (e.target === modalOverlay) {
+                closeModal();
+            }
+        });
+        
+        // 按ESC键关闭
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modalOverlay.classList.contains('active')) {
+                closeModal();
+            }
+        });
+        
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+    
